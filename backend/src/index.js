@@ -20,6 +20,12 @@ app.use(cors({
     credentials: true,
 }))
 
+app.use((req, res, next) => {
+    res.setHeader("Content-Security-Policy", 
+      "default-src 'self'; font-src 'self' data:; img-src 'self' data: blob:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'");
+    next();
+  });
+
 app.use("/api/auth", authRoutes)
 app.use("/api/messages", messageRoutes)
 
