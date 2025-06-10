@@ -8,6 +8,7 @@ const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
     origin: ["http://localhost:5173"],
+    credentials: true                      // changed on June 9th after chatGPT suggestion
   },
 });
 
@@ -20,6 +21,10 @@ const userSocketMap = {} // {usedId: socketId}
 
 io.on("connection", (socket) =>{
     console.log("A user connected", socket.id)
+
+    io.on("connection", (socket) => {
+      console.log("🔌 New socket connection:", socket.id);
+    });
 
     const userId = socket.handshake.query.userId
     if(userId) userSocketMap[userId] = socket.id
